@@ -93,7 +93,7 @@ function onDeviceReady() {
         if (device.platform == 'android' || device.platform == 'Android' ||
             device.platform == 'amazon-fireos') {
             pushNotification.register(successHandler, errorHandler, {
-                "senderID": "661780372179",
+                "senderID": "405221447351",
                 "ecb": "onNotification"
             }); // required!
         } else {
