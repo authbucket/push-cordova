@@ -1,31 +1,44 @@
 {
-  "name": "push-cordova",
-  "version": "1.0.0",
-  "description": "push-cordova ============",
-  "main": "Gruntfile.js",
-  "dependencies": {
-    "grunt": "~0.4.5"
-  },
-  "devDependencies": {
-    "bootstrap": "~3.2.0",
-    "bower": "~1.3.9",
-    "grunt": "~0.4.5",
-    "grunt-cli": "~0.1.13",
-    "grunt-contrib-copy": "~0.5.0",
-    "grunt-contrib-uglify": "~0.5.1",
-    "jquery": "~2.1.1"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/authbucket/push-cordova.git"
-  },
-  "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/authbucket/push-cordova/issues"
-  },
-  "homepage": "https://github.com/authbucket/push-cordova"
+    "author": "",
+    "bugs": {
+        "url": "https://github.com/authbucket/push-cordova/issues"
+    },
+    "dependencies": {
+        "grunt": "~0.4.5"
+    },
+    "description": "push-cordova ============",
+    "devDependencies": {
+        "bootstrap": "~3.2.0",
+        "clean": "~4.0.1",
+        "cordova": "~3.5.0",
+        "grunt": "~0.4.5",
+        "grunt-clean": "~0.4.0",
+        "grunt-cli": "~0.1.13",
+        "grunt-contrib-clean": "~0.6.0",
+        "grunt-contrib-copy": "~0.5.0",
+        "grunt-contrib-cssmin": "~0.10.0",
+        "grunt-contrib-htmlmin": "~0.3.0",
+        "grunt-contrib-imagemin": "~0.8.1",
+        "grunt-contrib-jshint": "~0.10.0",
+        "grunt-contrib-less": "~0.11.4",
+        "grunt-contrib-nodeunit": "~0.4.1",
+        "grunt-contrib-uglify": "~0.5.1",
+        "grunt-cordovacli": "~0.4.0",
+        "grunt-jsbeautifier": "~0.2.7",
+        "jquery": "~2.1.1",
+        "js-beautify": "~1.5.1",
+        "jshint": "~2.5.5"
+    },
+    "homepage": "https://github.com/authbucket/push-cordova",
+    "license": "MIT",
+    "main": "Gruntfile.js",
+    "name": "push-cordova",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/authbucket/push-cordova.git"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "version": "1.0.0"
 }

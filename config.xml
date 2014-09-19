@@ -12,22 +12,4 @@
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#FFFFFF" />
     <preference name="StatusBarStyle" value="default" />
-    <feature name="PushPlugin">
-        <param name="id" value="com.phonegap.plugins.PushPlugin" />
-    </feature>
-    <feature name="Console">
-        <param name="id" value="org.apache.cordova.console" />
-    </feature>
-    <feature name="Device">
-        <param name="id" value="org.apache.cordova.device" />
-    </feature>
-    <feature name="File">
-        <param name="id" value="org.apache.cordova.file" />
-    </feature>
-    <feature name="Media">
-        <param name="id" value="org.apache.cordova.media" />
-    </feature>
-    <feature name="StatusBar">
-        <param name="id" value="org.apache.cordova.statusbar" />
-    </feature>
 </widget>

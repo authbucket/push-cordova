@@ -3,8 +3,8 @@ var PushNotification = function() {};
 
 // Call this to register for push notifications. Content of [options] depends on whether we are working with APNS (iOS) or GCM (Android)
 PushNotification.prototype.register = function(successCallback, errorCallback, options) {
-    if (errorCallback == null) {
-        errorCallback = function() {}
+    if (errorCallback === null) {
+        errorCallback = function() {};
     }
 
     if (typeof errorCallback != "function") {
@@ -22,8 +22,8 @@ PushNotification.prototype.register = function(successCallback, errorCallback, o
 
 // Call this to unregister for push notifications
 PushNotification.prototype.unregister = function(successCallback, errorCallback) {
-    if (errorCallback == null) {
-        errorCallback = function() {}
+    if (errorCallback === null) {
+        errorCallback = function() {};
     }
 
     if (typeof errorCallback != "function") {
@@ -42,8 +42,8 @@ PushNotification.prototype.unregister = function(successCallback, errorCallback)
 
 // Call this to set the application icon badge
 PushNotification.prototype.setApplicationIconBadgeNumber = function(successCallback, badge) {
-    if (errorCallback == null) {
-        errorCallback = function() {}
+    if (errorCallback === null) {
+        errorCallback = function() {};
     }
 
     if (typeof errorCallback != "function") {
