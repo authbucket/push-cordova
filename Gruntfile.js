@@ -37,6 +37,7 @@ module.exports = function(grunt) {
         imagemin: {
             options: {
                 optimizationLevel: 3,
+                force: true,
             },
             src: {
                 files: [{
@@ -118,6 +119,10 @@ module.exports = function(grunt) {
                     'cordova build ios'
                 ].join('&&')
             }
+        },
+
+        nodeunit: {
+            tests: ['test/*_test.js'],
         }
     });
 
@@ -129,13 +134,24 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-shell');
+
+    grunt.registerTask('test', function(which) {
+        var test = path.join(__dirname, 'test', 'fixtures', which + '.js');
+        if (grunt.file.exists(test)) {
+            grunt.config('nodeunit.tests', test);
+        }
+        grunt.task.run('nodeunit');
+    });
 
     // Define task(s).
     grunt.registerTask('init', ['shell:plugin', 'shell:platform', 'copy']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('make', ['uglify', 'less', 'imagemin', 'htmlmin', 'shell:build']);
+    grunt.registerTask('test',['nodeunit']);
 
     // Default task.
-    grunt.registerTask('default', ['init', 'lint', 'make']);
+    grunt.registerTask('default', ['init', 'lint','test', 'make']);
+
 };
