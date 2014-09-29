@@ -2,11 +2,6 @@ var grunt = require('grunt');
 var path = require('path');
 
 exports.cordovacli = {
-  //  setUp: function (done) {
-    //    'use strict';
-        // setup here if necessary
-      //  done();
-    //},
 
     cordova_test: function (test) {
         'use strict';

@@ -122,11 +122,9 @@ module.exports = function(grunt) {
         },
 
         nodeunit: {
-<<<<<<< HEAD
+
             tests: ['tests/**/*_Test.js'],
-=======
-            tests: ['test/*_test.js'],
->>>>>>> a2e88a0db9317f740e62e66dfcd29ddbcab7bf21
+
         }
     });
 
@@ -140,14 +138,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-shell');
-
-    grunt.registerTask('test', function(which) {
-        var test = path.join(__dirname, 'test', 'fixtures', which + '.js');
-        if (grunt.file.exists(test)) {
-            grunt.config('nodeunit.tests', test);
-        }
-        grunt.task.run('nodeunit');
-    });
 
     // Define task(s).
     grunt.registerTask('init', ['shell:plugin', 'shell:platform', 'copy']);
