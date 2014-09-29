@@ -37,6 +37,7 @@ module.exports = function(grunt) {
         imagemin: {
             options: {
                 optimizationLevel: 3,
+                force: true,
             },
             src: {
                 files: [{
@@ -92,6 +93,11 @@ module.exports = function(grunt) {
         },
 
         shell: {
+            options: {
+                execOptions: {
+                    maxBuffer: 1024 * 1024
+                }
+            },
             plugin: {
                 command: [
                     'cordova plugin add https://github.com/phonegap-build/PushPlugin.git',
@@ -106,7 +112,19 @@ module.exports = function(grunt) {
                     'cordova platform add android',
                     'cordova platform add ios'
                 ].join('&&')
+            },
+            build: {
+                command: [
+                    'cordova build android',
+                    'cordova build ios'
+                ].join('&&')
             }
+        },
+
+        nodeunit: {
+
+            tests: ['tests/**/*_Test.js'],
+
         }
     });
 
@@ -118,12 +136,16 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-nodeunit');
     grunt.loadNpmTasks('grunt-shell');
 
     // Define task(s).
-    grunt.registerTask('init', ['shell', 'copy']);
-    grunt.registerTask('make', ['uglify', 'less', 'imagemin', 'htmlmin']);
+    grunt.registerTask('init', ['shell:plugin', 'shell:platform', 'copy']);
+    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('make', ['uglify', 'less', 'imagemin', 'htmlmin', 'shell:build']);
+    grunt.registerTask('test',['nodeunit']);
 
     // Default task.
-    grunt.registerTask('default', ['init', 'make']);
+    grunt.registerTask('default', ['init', 'lint','test', 'make']);
+
 };
