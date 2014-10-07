@@ -3,7 +3,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         clean: {
             build: ['platforms/*', 'plugins/*', 'www/*'],
-        },
+        }, 
 
         copy: {
             vendor: {
@@ -87,7 +87,7 @@ module.exports = function(grunt) {
                     src: ['**/*.js'],
                     dest: 'www/js/',
                     ext: '.min.js',
-                    extDot: 'first'
+                    extDot: 'first',
                 }]
             }
         },
@@ -121,10 +121,16 @@ module.exports = function(grunt) {
             }
         },
 
+        karma: {
+            unit: {
+                options: {
+                    files: ['test/*.js']
+                }
+            }
+        },
+
         nodeunit: {
-
-            tests: ['tests/**/*_Test.js'],
-
+            test: ['test/**/*_test.js']
         }
     });
 
@@ -134,6 +140,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
@@ -142,10 +149,9 @@ module.exports = function(grunt) {
     // Define task(s).
     grunt.registerTask('init', ['shell:plugin', 'shell:platform', 'copy']);
     grunt.registerTask('lint', ['jshint']);
-    grunt.registerTask('make', ['uglify', 'less', 'imagemin', 'htmlmin', 'shell:build']);
-    grunt.registerTask('test',['nodeunit']);
+    grunt.registerTask('make', [ 'less', 'imagemin', 'htmlmin', 'shell:build']);
 
     // Default task.
-    grunt.registerTask('default', ['init', 'lint','test', 'make']);
+    grunt.registerTask('default', ['init', 'lint', 'make']);
 
 };
