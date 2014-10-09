@@ -114,7 +114,7 @@ function onDeviceReady() {
 // handle APNS notifications for iOS
 function onNotificationAPN(e) {
     if (e.alert) {
-        $("#app-status-ul").append('<li>push-notification: ' + e.alert + '</li>');
+        $("#app-status-ul").append('<li>MESSAGE -> MSG: ' + e.alert + '</li>');
         // showing an alert also requires the org.apache.cordova.dialogs plugin
         navigator.notification.alert(e.alert);
     }
@@ -142,10 +142,16 @@ function onNotification(e) {
                 // here is where you might want to send it the regID for later use.
                 console.log("regID = " + e.regid);
                 // Register the device token to push-php.authbucket.com
-                $.post("http://push-php.authbucket.com/api/v1.0/push/register", {
-                    "access_token": "eeb5aa92bbb4b56373b9e0d00bc02d93",
-                    "device_token": e.regid,
-                    "service_type": "gcm",
+                $.ajax({
+                    url: "http://push-php.authbucket.com/api/v1.0/push/register.json",
+                    type: "POST",
+                    dataType: "json",
+                    username: "demousername1",
+                    password: "demopassword1",
+                    data: JSON.stringify({
+                        deviceToken: e.regid,
+                        variantId: "78b67c04bfd60ddfc8c90895d36e1e05",
+                    }),
                 });
             }
             break;
@@ -171,11 +177,7 @@ function onNotification(e) {
                     $("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
             }
 
-            $("#app-status-ul").append('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
-            //android only
-            $("#app-status-ul").append('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
-            //amazon-fireos only
-            $("#app-status-ul").append('<li>MESSAGE -> TIMESTAMP: ' + e.payload.timeStamp + '</li>');
+            $("#app-status-ul").append('<li>MESSAGE -> MSG: ' + e.payload.alert + '</li>');
             break;
 
         case 'error':
@@ -189,15 +191,21 @@ function onNotification(e) {
 }
 
 function tokenHandler(result) {
-    $("#app-status-ul").append('<li>token: ' + result + '</li>');
+    $("#app-status-ul").append('<li>REGISTERED -> REGID:' + result + "</li>");
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
     console.log("regID = " + result);
     // Register the device token to push-php.authbucket.com
-    $.post("http://push-php.authbucket.com/api/v1.0/push/register", {
-        "access_token": "eeb5aa92bbb4b56373b9e0d00bc02d93",
-        "device_token": result,
-        "service_type": "apns",
+    $.ajax({
+        url: "http://push-php.authbucket.com/api/v1.0/push/register.json",
+        type: "POST",
+        dataType: "json",
+        username: "demousername1",
+        password: "demopassword1",
+        data: JSON.stringify({
+            deviceToken: result,
+            variantId: "f2ee1d163e9c9b633efca95fb9733f35",
+        }),
     });
 }
 
