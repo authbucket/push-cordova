@@ -143,15 +143,15 @@ function onNotification(e) {
                 console.log("regID = " + e.regid);
                 // Register the device token to push-php.authbucket.com
                 $.ajax({
-                    url: "http://push-php.authbucket.com/api/v1.0/push/register.json",
+                    url: "http://push-php.authbucket.com/api/v1.0/push/register",
                     type: "POST",
-                    dataType: "json",
-                    username: "demousername1",
-                    password: "demopassword1",
-                    data: JSON.stringify({
-                        deviceToken: e.regid,
-                        variantId: "78b67c04bfd60ddfc8c90895d36e1e05",
-                    }),
+                    headers: {
+                        'Authorization': 'Bearer 18cdaa6481c0d5f323351ea1029fc065',
+                    },
+                    data: {
+                        'device_token': e.regid,
+                        'service_id': '78b67c04bfd60ddfc8c90895d36e1e05',
+                    },
                 });
             }
             break;
@@ -197,15 +197,15 @@ function tokenHandler(result) {
     console.log("regID = " + result);
     // Register the device token to push-php.authbucket.com
     $.ajax({
-        url: "http://push-php.authbucket.com/api/v1.0/push/register.json",
+        url: "http://push-php.authbucket.com/api/v1.0/push/register",
         type: "POST",
-        dataType: "json",
-        username: "demousername1",
-        password: "demopassword1",
-        data: JSON.stringify({
-            deviceToken: result,
-            variantId: "f2ee1d163e9c9b633efca95fb9733f35",
-        }),
+        headers: {
+            'Authorization': 'Bearer 18cdaa6481c0d5f323351ea1029fc065',
+        },
+        data: {
+            'device_token': result,
+            'service_id': 'f2ee1d163e9c9b633efca95fb9733f35',
+        },
     });
 }
 
