@@ -103,7 +103,7 @@ module.exports = function(grunt) {
             },
             plugin: {
                 command: [
-                    'cordova plugin add https://github.com/phonegap-build/PushPlugin.git',
+                    'cordova plugin add https://github.com/hswong3i/PushPlugin.git',
                     'cordova plugin add org.apache.cordova.console',
                     'cordova plugin add org.apache.cordova.device',
                     'cordova plugin add org.apache.cordova.file',
