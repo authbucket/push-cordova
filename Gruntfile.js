@@ -12,6 +12,7 @@ module.exports = function(grunt) {
                     'www/css/bootstrap.min.css': 'bower_components/bootstrap/dist/css/bootstrap.min.css',
                     'www/js/angular.min.js': 'bower_components/angular/angular.min.js',
                     'www/js/bootstrap.min.js': 'bower_components/bootstrap/dist/js/bootstrap.min.js',
+                    'www/js/hello.all.min.js': 'bower_components/hello/dist/hello.all.min.js',
                     'www/js/jquery.min.js': 'bower_components/jquery/dist/jquery.min.js',
                 }
             }
@@ -107,6 +108,7 @@ module.exports = function(grunt) {
                     'cordova plugin add org.apache.cordova.console',
                     'cordova plugin add org.apache.cordova.device',
                     'cordova plugin add org.apache.cordova.file',
+                    'cordova plugin add org.apache.cordova.inappbrowser',
                     'cordova plugin add org.apache.cordova.media',
                 ].join('&&')
             },
