@@ -141,9 +141,9 @@ function onNotification(e) {
                 // Your GCM push server needs to know the regID before it can push to this device
                 // here is where you might want to send it the regID for later use.
                 console.log("regID = " + e.regid);
-                // Register the device token to push-php.authbucket.com
+                // Register the device token to push-symfony-bundle.authbucket.com
                 $.ajax({
-                    url: "http://push-php.authbucket.com/api/v1.0/push/register",
+                    url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/register",
                     type: "POST",
                     headers: {
                         'Authorization': 'Bearer 18cdaa6481c0d5f323351ea1029fc065',
@@ -195,9 +195,9 @@ function tokenHandler(result) {
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
     console.log("regID = " + result);
-    // Register the device token to push-php.authbucket.com
+    // Register the device token to push-symfony-bundle.authbucket.com
     $.ajax({
-        url: "http://push-php.authbucket.com/api/v1.0/push/register",
+        url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/register",
         type: "POST",
         headers: {
             'Authorization': 'Bearer 18cdaa6481c0d5f323351ea1029fc065',
