@@ -133,6 +133,36 @@ function errorHandler(error) {
 
 document.addEventListener('deviceready', onDeviceReady, true);
 
+// Handle login button.
+hello.init({
+    authbucket: '6b44c21ef7bc8ca7380bb5b8276b3f97',
+}, {
+    redirect_uri: 'http://localhost',
+});
+hello.on('auth.login', function(auth) {
+    $("#debug").prepend('<li>' + auth.authResponse.access_token + '</li>');
+
+    $.ajax({
+        url: "http://oauth2-symfony-bundle.authbucket.com/api/v1.0/oauth2/debug",
+        type: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + auth.authResponse.access_token,
+        },
+    }).done(function(json) {
+        $("#debug").prepend('<li>' + json.username + '</li>');
+    });
+});
+$(document).on('click', '#login', function() {
+    hello('authbucket').login();
+});
+
+// Handle logout button.
+$(document).on('click', '#logout', function() {
+    hello('authbucket').logout();
+    $.get('http://oauth2-symfony-bundle.authbucket.com/oauth2/authorize/logout');
+    $("#debug").prepend('<li>logout successfully</li>');
+});
+
 // Handle scope button debug.
 ['demoscope1', 'demoscope2', 'demoscope3', 'demoscope4'].forEach(function(element, index, array) {
     $(document).on('click', '#' + element, function() {

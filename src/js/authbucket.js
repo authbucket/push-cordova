@@ -1,7 +1,7 @@
 //
 // AuthBucket
 //
-(function(hello){
+(function(hello) {
     hello.init({
         authbucket: {
             name: 'AuthBucket',
@@ -13,10 +13,11 @@
             },
             refresh: true,
             scope: {
-                basic:  'debug',
+                basic: 'demoscope1 demoscope2 demoscope3 demoscope4',
             },
+            scope_delim: ' ',
             get: {
-                'debug': 'debug',
+                'me': 'debug',
             },
         },
     });
