@@ -1,3 +1,5 @@
+var device_token = '';
+
 function onDeviceReady() {
     $("#debug").prepend('<li>deviceready event received</li>');
 
@@ -25,7 +27,66 @@ function onDeviceReady() {
     }
 }
 
-// handle APNS notifications for iOS
+// Get anonymous access_token with grant_type = client_credentials.
+function getAnonymousAccessToken() {
+    var access_token = '';
+    $.ajax({
+        url: 'http://push-symfony-bundle.authbucket.com/oauth2/token',
+        type: 'POST',
+        username: '6b44c21ef7bc8ca7380bb5b8276b3f97',
+        password: '54fe25c871b3ee81d037b6b22bed84b2',
+        data: {
+            'grant_type': 'client_credentials',
+        },
+    }).done(function(json) {
+        access_token = json.access_token;
+    });
+
+    return access_token;
+}
+
+// Get clicked scopes.
+function getScope() {
+    var scope = [];
+    ['demoscope1', 'demoscope2', 'demoscope3', 'demoscope4'].forEach(function(element, index, array) {
+        if ($('#' + element).hasClass('active')) {
+            scope.push(element);
+        }
+    });
+    return scope.join(' ');
+}
+
+// Register device_token with access_token.
+function registerDeviceToken(device_token, access_token) {
+    $.ajax({
+        url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/register",
+        type: "POST",
+        headers: {
+            'Authorization': 'Bearer ' + access_token,
+        },
+        data: {
+            'device_token': device_token,
+            'service_id': '78b67c04bfd60ddfc8c90895d36e1e05',
+        },
+    });
+}
+
+// Unregister device_token with access_token.
+function unregisterDeviceToken(device_token, access_token) {
+    $.ajax({
+        url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/unregister",
+        type: "POST",
+        headers: {
+            'Authorization': 'Bearer ' + access_token,
+        },
+        data: {
+            'device_token': device_token,
+            'service_id': '78b67c04bfd60ddfc8c90895d36e1e05',
+        },
+    });
+}
+
+// Handle APNS notifications for iOS
 function onNotificationAPN(e) {
     if (e.alert) {
         $("#debug").prepend('<li>MESSAGE -> MSG: ' + e.alert + '</li>');
@@ -44,29 +105,20 @@ function onNotificationAPN(e) {
     }
 }
 
-// handle GCM notifications for Android
+// Handle GCM notifications for Android
 function onNotification(e) {
     $("#debug").prepend('<li>EVENT -> RECEIVED:' + e.event + '</li>');
 
     switch (e.event) {
         case 'registered':
             if (e.regid.length > 0) {
-                $("#debug").prepend('<li>REGISTERED -> REGID:' + e.regid + "</li>");
+                device_token = e.regid;
+                $("#debug").prepend('<li>REGISTERED -> REGID:' + device_token + "</li>");
                 // Your GCM push server needs to know the regID before it can push to this device
                 // here is where you might want to send it the regID for later use.
-                console.log("regID = " + e.regid);
+                console.log("regID = " + device_token);
                 // Register the device token to push-symfony-bundle.authbucket.com
-                $.ajax({
-                    url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/register",
-                    type: "POST",
-                    headers: {
-                        'Authorization': 'Bearer 18cdaa6481c0d5f323351ea1029fc065',
-                    },
-                    data: {
-                        'device_token': e.regid,
-                        'service_id': '78b67c04bfd60ddfc8c90895d36e1e05',
-                    },
-                });
+                registerDeviceToken(device_token, getAnonymousAccessToken());
             }
             break;
 
@@ -105,22 +157,13 @@ function onNotification(e) {
 }
 
 function tokenHandler(result) {
+    device_token = result;
     $("#debug").prepend('<li>REGISTERED -> REGID:' + result + "</li>");
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
-    console.log("regID = " + result);
+    console.log("regID = " + device_token);
     // Register the device token to push-symfony-bundle.authbucket.com
-    $.ajax({
-        url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/register",
-        type: "POST",
-        headers: {
-            'Authorization': 'Bearer 18cdaa6481c0d5f323351ea1029fc065',
-        },
-        data: {
-            'device_token': result,
-            'service_id': 'f2ee1d163e9c9b633efca95fb9733f35',
-        },
-    });
+    registerDeviceToken(device_token, getAnonymousAccessToken());
 }
 
 function successHandler(result) {
@@ -133,36 +176,6 @@ function errorHandler(error) {
 
 document.addEventListener('deviceready', onDeviceReady, true);
 
-// Handle login button.
-hello.init({
-    authbucket: '6b44c21ef7bc8ca7380bb5b8276b3f97',
-}, {
-    redirect_uri: 'http://localhost',
-});
-hello.on('auth.login', function(auth) {
-    $("#debug").prepend('<li>' + auth.authResponse.access_token + '</li>');
-
-    $.ajax({
-        url: "http://oauth2-symfony-bundle.authbucket.com/api/v1.0/oauth2/debug",
-        type: "GET",
-        headers: {
-            'Authorization': 'Bearer ' + auth.authResponse.access_token,
-        },
-    }).done(function(json) {
-        $("#debug").prepend('<li>' + json.username + '</li>');
-    });
-});
-$(document).on('click', '#login', function() {
-    hello('authbucket').login();
-});
-
-// Handle logout button.
-$(document).on('click', '#logout', function() {
-    hello('authbucket').logout();
-    $.get('http://oauth2-symfony-bundle.authbucket.com/oauth2/authorize/logout');
-    $("#debug").prepend('<li>logout successfully</li>');
-});
-
 // Handle scope button debug.
 ['demoscope1', 'demoscope2', 'demoscope3', 'demoscope4'].forEach(function(element, index, array) {
     $(document).on('click', '#' + element, function() {
@@ -172,4 +185,33 @@ $(document).on('click', '#logout', function() {
             $("#debug").prepend('<li>' + element + ' deactive</li>');
         }
     });
+});
+
+// Handle register button.
+hello.init({
+    authbucket: '6b44c21ef7bc8ca7380bb5b8276b3f97',
+}, {
+    redirect_uri: 'http://localhost',
+});
+hello.on('auth.login', function(auth) {
+    $("#debug").prepend('<li>' + auth.authResponse.access_token + '</li>');
+    registerDeviceToken(device_token, auth.authResponse.access_token);
+});
+$(document).on('click', '#register', function() {
+    hello('authbucket').login({
+        scope: getScope(),
+    });
+});
+
+// Handle unregister button.
+$(document).on('click', '#unregister', function() {
+    access_token = hello('authbucket').getAuthResponse().access_token;
+    unregisterDeviceToken(device_token, access_token);
+});
+
+// Handle logout button.
+$(document).on('click', '#logout', function() {
+    hello('authbucket').logout();
+    $.get('http://oauth2-symfony-bundle.authbucket.com/oauth2/authorize/logout');
+    $("#debug").prepend('<li>logout successfully</li>');
 });

@@ -13,7 +13,7 @@
             },
             refresh: true,
             scope: {
-                basic: 'demoscope1 demoscope2 demoscope3 demoscope4',
+                basic: '',
             },
             scope_delim: ' ',
             get: {
