@@ -29,20 +29,7 @@ function onDeviceReady() {
 
 // Get anonymous access_token with grant_type = client_credentials.
 function getAnonymousAccessToken() {
-    var access_token = '';
-    $.ajax({
-        url: 'http://push-symfony-bundle.authbucket.com/oauth2/token',
-        type: 'POST',
-        username: '6b44c21ef7bc8ca7380bb5b8276b3f97',
-        password: '54fe25c871b3ee81d037b6b22bed84b2',
-        data: {
-            'grant_type': 'client_credentials',
-        },
-    }).done(function(json) {
-        access_token = json.access_token;
-    });
-
-    return access_token;
+    return '18cdaa6481c0d5f323351ea1029fc065';
 }
 
 // Get clicked scopes.
@@ -113,12 +100,13 @@ function onNotification(e) {
         case 'registered':
             if (e.regid.length > 0) {
                 device_token = e.regid;
+                access_token = getAnonymousAccessToken();
                 $("#debug").prepend('<li>REGISTERED -> REGID:' + device_token + "</li>");
                 // Your GCM push server needs to know the regID before it can push to this device
                 // here is where you might want to send it the regID for later use.
                 console.log("regID = " + device_token);
                 // Register the device token to push-symfony-bundle.authbucket.com
-                registerDeviceToken(device_token, getAnonymousAccessToken());
+                registerDeviceToken(device_token, access_token);
             }
             break;
 
@@ -158,12 +146,13 @@ function onNotification(e) {
 
 function tokenHandler(result) {
     device_token = result;
+    access_token = getAnonymousAccessToken();
     $("#debug").prepend('<li>REGISTERED -> REGID:' + result + "</li>");
     // Your iOS push server needs to know the token before it can push to this device
     // here is where you might want to send it the token for later use.
     console.log("regID = " + device_token);
     // Register the device token to push-symfony-bundle.authbucket.com
-    registerDeviceToken(device_token, getAnonymousAccessToken());
+    registerDeviceToken(device_token, access_token);
 }
 
 function successHandler(result) {
@@ -194,8 +183,9 @@ hello.init({
     redirect_uri: 'http://localhost',
 });
 hello.on('auth.login', function(auth) {
-    $("#debug").prepend('<li>' + auth.authResponse.access_token + '</li>');
-    registerDeviceToken(device_token, auth.authResponse.access_token);
+    access_token = hello('authbucket').getAuthResponse().access_token;
+    registerDeviceToken(device_token, access_token);
+    $("#debug").prepend('<li>register: ' + access_token + '</li>');
 });
 $(document).on('click', '#register', function() {
     hello('authbucket').login({
@@ -207,6 +197,7 @@ $(document).on('click', '#register', function() {
 $(document).on('click', '#unregister', function() {
     access_token = hello('authbucket').getAuthResponse().access_token;
     unregisterDeviceToken(device_token, access_token);
+    $("#debug").prepend('<li>unregister: ' + access_token + '</li>');
 });
 
 // Handle logout button.
