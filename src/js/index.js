@@ -1,4 +1,12 @@
 var device_token = '';
+var service_id = '';
+
+// Initialize hello.js
+hello.init({
+    authbucket: '6b44c21ef7bc8ca7380bb5b8276b3f97',
+}, {
+    redirect_uri: 'http://localhost',
+});
 
 function onDeviceReady() {
     $("#debug").prepend('<li>deviceready event received</li>');
@@ -12,6 +20,7 @@ function onDeviceReady() {
                 "senderID": "405221447351",
                 "ecb": "onNotification"
             }); // required!
+            service_id = '78b67c04bfd60ddfc8c90895d36e1e05';
         } else {
             pushNotification.register(tokenHandler, errorHandler, {
                 "badge": "true",
@@ -19,6 +28,7 @@ function onDeviceReady() {
                 "alert": "true",
                 "ecb": "onNotificationAPN"
             }); // required!
+            service_id = 'f2ee1d163e9c9b633efca95fb9733f35';
         }
     } catch (err) {
         txt = "There was an error on this page.\n\n";
@@ -53,9 +63,10 @@ function registerDeviceToken(device_token, access_token) {
         },
         data: {
             'device_token': device_token,
-            'service_id': '78b67c04bfd60ddfc8c90895d36e1e05',
+            'service_id': service_id,
         },
     });
+    $("#debug").prepend('<li>register: ' + access_token + '</li>');
 }
 
 // Unregister device_token with access_token.
@@ -68,9 +79,10 @@ function unregisterDeviceToken(device_token, access_token) {
         },
         data: {
             'device_token': device_token,
-            'service_id': '78b67c04bfd60ddfc8c90895d36e1e05',
+            'service_id': service_id,
         },
     });
+    $("#debug").prepend('<li>unregister: ' + access_token + '</li>');
 }
 
 // Handle APNS notifications for iOS
@@ -177,19 +189,12 @@ document.addEventListener('deviceready', onDeviceReady, true);
 });
 
 // Handle register button.
-hello.init({
-    authbucket: '6b44c21ef7bc8ca7380bb5b8276b3f97',
-}, {
-    redirect_uri: 'http://localhost',
-});
-hello.on('auth.login', function(auth) {
-    access_token = hello('authbucket').getAuthResponse().access_token;
-    registerDeviceToken(device_token, access_token);
-    $("#debug").prepend('<li>register: ' + access_token + '</li>');
-});
 $(document).on('click', '#register', function() {
     hello('authbucket').login({
         scope: getScope(),
+    }).then(function() {
+        access_token = hello('authbucket').getAuthResponse().access_token;
+        registerDeviceToken(device_token, access_token);
     });
 });
 
@@ -197,7 +202,6 @@ $(document).on('click', '#register', function() {
 $(document).on('click', '#unregister', function() {
     access_token = hello('authbucket').getAuthResponse().access_token;
     unregisterDeviceToken(device_token, access_token);
-    $("#debug").prepend('<li>unregister: ' + access_token + '</li>');
 });
 
 // Handle logout button.
