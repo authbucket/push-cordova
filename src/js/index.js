@@ -56,7 +56,7 @@ function getScope() {
 // Register device_token with access_token.
 function registerDeviceToken(device_token, access_token) {
     $.ajax({
-        url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/register",
+        url: "http://push-symfony-bundle.authbucket.com/api/push/register",
         type: "POST",
         headers: {
             'Authorization': 'Bearer ' + access_token,
@@ -72,7 +72,7 @@ function registerDeviceToken(device_token, access_token) {
 // Unregister device_token with access_token.
 function unregisterDeviceToken(device_token, access_token) {
     $.ajax({
-        url: "http://push-symfony-bundle.authbucket.com/api/v1.0/push/unregister",
+        url: "http://push-symfony-bundle.authbucket.com/api/push/unregister",
         type: "POST",
         headers: {
             'Authorization': 'Bearer ' + access_token,

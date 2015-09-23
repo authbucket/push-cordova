@@ -100,11 +100,11 @@ module.exports = function(grunt) {
             plugin: {
                 command: [
                     'cordova plugin add https://github.com/hswong3i/PushPlugin.git#feature/android-alert',
-                    'cordova plugin add org.apache.cordova.console',
-                    'cordova plugin add org.apache.cordova.device',
-                    'cordova plugin add org.apache.cordova.file',
-                    'cordova plugin add org.apache.cordova.inappbrowser',
-                    'cordova plugin add org.apache.cordova.media',
+                    'cordova plugin add cordova-plugin-console',
+                    'cordova plugin add cordova-plugin-device',
+                    'cordova plugin add cordova-plugin-file',
+                    'cordova plugin add cordova-plugin-inappbrowser',
+                    'cordova plugin add cordova-plugin-media',
                 ].join('&&')
             },
             platform: {
