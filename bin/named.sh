@@ -8,11 +8,11 @@ USERNAME="demousername1"
 PASSWORD="demopassword1"
 SCOPE="demoscope1 demoscope2"
 
-TOKEN_RESPONSE=`curl -X POST -u $CLIENT_ID:$CLIENT_SECRET -d "grant_type=password&username=$USERNAME&password=$PASSWORD&scope=$SCOPE" http://oauth2-symfony-bundle.authbucket.com/api/v1.0/oauth2/token`
+TOKEN_RESPONSE=`curl -X POST -u $CLIENT_ID:$CLIENT_SECRET -d "grant_type=password&username=$USERNAME&password=$PASSWORD&scope=$SCOPE" http://oauth2-symfony-bundle.authbucket.com/api/oauth2/token`
 echo $TOKEN_RESPONSE | python -m json.tool
 
 TOKEN=`echo $TOKEN_RESPONSE | sed 's/.*"access_token":"\([a-zA-Z0-9]*\)",.*/\1/g'`
 echo $TOKEN
 
-SEND_RESPONSE=`curl -X POST -H "Authorization: Bearer $TOKEN" -d "alert=$ALERT" http://push-symfony-bundle.authbucket.com/api/v1.0/push/send`
+SEND_RESPONSE=`curl -X POST -H "Authorization: Bearer $TOKEN" -d "alert=$ALERT" http://push-symfony-bundle.authbucket.com/api/push/send`
 echo $SEND_RESPONSE | python -m json.tool

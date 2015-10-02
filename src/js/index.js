@@ -207,6 +207,6 @@ $(document).on('click', '#unregister', function() {
 // Handle logout button.
 $(document).on('click', '#logout', function() {
     hello('authbucket').logout();
-    $.get('http://oauth2-symfony-bundle.authbucket.com/oauth2/authorize/logout');
+    $.get('http://oauth2-symfony-bundle.authbucket.com/demo/authorize/logout');
     $("#debug").prepend('<li>logout successfully</li>');
 });

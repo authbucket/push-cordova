@@ -105,6 +105,7 @@ module.exports = function(grunt) {
                     'cordova plugin add cordova-plugin-file',
                     'cordova plugin add cordova-plugin-inappbrowser',
                     'cordova plugin add cordova-plugin-media',
+                    'cordova plugin add cordova-plugin-transport-security'
                 ].join('&&')
             },
             platform: {
